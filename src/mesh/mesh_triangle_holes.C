@@ -104,12 +104,18 @@ namespace
   // (non-inclusive) to pt1 (inclusive), -1 otherwise.
   //
   // If the intersection is a "glancing" one at a corner, return -1.
-  Real find_intersection(const Point & source,
+  Real find_intersection(const Point & source_0,
                          const Point & ray_target,
-                         const Point & edge_pt0,
-                         const Point & edge_pt1,
-                         const Point & edge_pt2)
+                         const Point & edge_pt0_0,
+                         const Point & edge_pt1_0,
+                         const Point & edge_pt2_0)
   {
+    // Add a random small shift to the source and three points
+    const Real source = source_0 + Point((Real)(rand() % 10000 - 5000)/5000.0 * libMesh::TOLERANCE * libMesh::TOLERANCE, (Real)(rand() % 10000 - 5000)/5000.0 * libMesh::TOLERANCE * libMesh::TOLERANCE, 0.0);
+    const Real edge_pt0 = edge_pt0_0 + Point((Real)(rand() % 10000 - 5000)/5000.0 * libMesh::TOLERANCE * libMesh::TOLERANCE, (Real)(rand() % 10000 - 5000)/5000.0 * libMesh::TOLERANCE * libMesh::TOLERANCE, 0.0);
+    const Real edge_pt1 = edge_pt0_1 + Point((Real)(rand() % 10000 - 5000)/5000.0 * libMesh::TOLERANCE * libMesh::TOLERANCE, (Real)(rand() % 10000 - 5000)/5000.0 * libMesh::TOLERANCE * libMesh::TOLERANCE, 0.0);
+    const Real edge_pt2 = edge_pt0_2 + Point((Real)(rand() % 10000 - 5000)/5000.0 * libMesh::TOLERANCE * libMesh::TOLERANCE, (Real)(rand() % 10000 - 5000)/5000.0 * libMesh::TOLERANCE * libMesh::TOLERANCE, 0.0);
+
     // Quick and more numerically stable check
     if (!is_intersection(source, ray_target, edge_pt0, edge_pt1))
       return -1;
