@@ -111,9 +111,9 @@ namespace
                          const Point & edge_pt2_0)
   {
     // Add a random small shift to the source and three points
-    const Point edge_pt0 = edge_pt0_0 + Point((Real)(rand() % 5000 + 5000) / 5000.0 * libMesh::TOLERANCE * libMesh::TOLERANCE, (Real)(rand() % 5000 - 5000) / 5000.0 * libMesh::TOLERANCE * libMesh::TOLERANCE, 0.0);
-    const Point edge_pt1 = edge_pt1_0 + Point((Real)(rand() % 5000 + 5000) / 5000.0 * libMesh::TOLERANCE * libMesh::TOLERANCE, (Real)(rand() % 5000 - 5000) / 5000.0 * libMesh::TOLERANCE * libMesh::TOLERANCE, 0.0);
-    const Point edge_pt2 = edge_pt2_0 + Point((Real)(rand() % 5000 + 5000) / 5000.0 * libMesh::TOLERANCE * libMesh::TOLERANCE, (Real)(rand() % 5000 - 5000) / 5000.0 * libMesh::TOLERANCE * libMesh::TOLERANCE, 0.0);
+    const Point edge_pt0 = edge_pt0_0 + Point((Real)(rand() % 5000 + 5000) / 5000.0 * libMesh::TOLERANCE * libMesh::TOLERANCE, (Real)(rand() % 5000 + 5000) / 5000.0 * libMesh::TOLERANCE * libMesh::TOLERANCE, 0.0);
+    const Point edge_pt1 = edge_pt1_0 + Point((Real)(rand() % 5000 + 5000) / 5000.0 * libMesh::TOLERANCE * libMesh::TOLERANCE, (Real)(rand() % 5000 + 5000) / 5000.0 * libMesh::TOLERANCE * libMesh::TOLERANCE, 0.0);
+    const Point edge_pt2 = edge_pt2_0 + Point((Real)(rand() % 5000 + 5000) / 5000.0 * libMesh::TOLERANCE * libMesh::TOLERANCE, (Real)(rand() % 5000 + 5000) / 5000.0 * libMesh::TOLERANCE * libMesh::TOLERANCE, 0.0);
 
     // Quick and more numerically stable check
     if (!is_intersection(source, ray_target, edge_pt0, edge_pt1))
