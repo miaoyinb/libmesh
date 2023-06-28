@@ -144,7 +144,7 @@ namespace
 
     // Then we want to check if the ray goes between pt0 and pt1
     if (cp0s * cp1s > 0)
-      return -1
+      return -1;
     else
     {
       // pt0, pt1 and source are co-linear
