@@ -99,6 +99,79 @@ namespace
     return false;
   }
 
+  // Alternative find_intersection() algorithm
+  // This is based on point instead of edge check
+
+  Real find_intersection_alt(const Point & source,
+                             const Point & ray_target,
+                             const Point & edge_pt0,
+                             const Point & edge_pt1,
+                             const Point & edge_pt2)
+  {
+    // Quick and more numerically stable check
+    if (!is_intersection(source, ray_target, edge_pt0, edge_pt1))
+      return -1;
+
+    const Point vst = ray_target - source;
+    const Point vs0 = edge_pt0 - source;
+    const Point vs1 = edge_pt1 - source;
+    const Point vs2 = edge_pt2 - source;
+    const Point v01 = edge_pt1 - edge_pt0;
+    const Point vt1 = edge_pt1 - ray_target;
+
+    // Cross product for vst and vs0
+    const Real cp0s = vs0.cross(vst)(2);
+    const Real cp1s = vs1.cross(vst)(2);
+    const Real cp2s = vs2.cross(vst)(2);
+    const Real cp01 = vs0.cross(vs1)(2);
+
+    // cp0s == 0 means the ray hits pt0
+    if (cp0s == 0)
+      return -1;
+    
+    // cp1s == 0 means the ray hits pt1
+    if (cp1s == 0)
+    {
+      // Check if pt2 is also hit
+      // If so, leave this check to the next one
+      if (cp2s == 0)
+        return -1;
+      else if (cp2s * cp0s > 0)
+        return -1;
+      else
+        return vs1.norm();
+    }
+
+    // Then we want to check if the ray goes between pt0 and pt1
+    if (cp0s * cp1s > 0)
+      return -1
+    else
+    {
+      // pt0, pt1 and source are co-linear
+      if (cp01 == 0)
+      {
+        if (vs0.contract(vs1) <= 0)
+          return 0;
+        else
+          return -1;
+      }
+      
+      const Real u_num = vt1(0) * v01(1) - vt1(1) * v01(0);
+      const Real denom = v01(0) * vst(1) - v01(1) * vst(0);
+      const Real one_over_denom = 1.0 / denom;
+      const Real u = u_num * one_over_denom;
+      const Real ray_fraction = (1-u);
+
+      // Intersection is in the other direction!?
+      if (ray_fraction < 0)
+        return -1;
+
+      const Real distance =
+        ray_fraction * vst.norm();
+      return distance;
+    }
+  }
+
   // Returns a positive distance iff the ray from source in the
   // direction of ray_target intersects the edge from pt0
   // (non-inclusive) to pt1 (inclusive), -1 otherwise.
@@ -234,7 +307,7 @@ TriangulatorInterface::Hole::find_ray_intersections(Point ray_start,
                   & p1 = this->point((i+1)%np),
                   & p2 = this->point((i+2)%np);
       const Real intersection_distance =
-        find_intersection(ray_start, ray_target, p0, p1, p2);
+        find_intersection_alt(ray_start, ray_target, p0, p1, p2);
       if (intersection_distance >= 0)
         intersection_distances.push_back
           (intersection_distance);
