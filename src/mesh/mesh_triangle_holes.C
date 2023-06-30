@@ -127,50 +127,70 @@ namespace
                               ray_target(1) - source(1)) == 0)
       return -1;
 
-    const Real t = simple_det_calculator(edge_pt1(0) - ray_target(0),
-                                         edge_pt1(1) - ray_target(1),
-                                         ray_target(0) - source(0),
-                                         ray_target(1) - source(1)) /
-                   simple_det_calculator(edge_pt1(0) - edge_pt0(0),
-                                         edge_pt1(1) - edge_pt0(1),
-                                         ray_target(0) - source(0),
-                                         ray_target(1) - source(1));
     // There's an intersection between the ray line and the edge?
-    if (t >= 0 && t < 1)
+    if (simple_det_calculator(edge_pt1(0) - ray_target(0),
+                              edge_pt1(1) - ray_target(1),
+                              ray_target(0) - source(0),
+                              ray_target(1) - source(1)) /
+                simple_det_calculator(edge_pt1(0) - edge_pt0(0),
+                                      edge_pt1(1) - edge_pt0(1),
+                                      ray_target(0) - source(0),
+                                      ray_target(1) - source(1)) >=
+            0 &&
+        simple_det_calculator(edge_pt1(0) - ray_target(0),
+                              edge_pt1(1) - ray_target(1),
+                              ray_target(0) - source(0),
+                              ray_target(1) - source(1)) /
+                simple_det_calculator(edge_pt1(0) - edge_pt0(0),
+                                      edge_pt1(1) - edge_pt0(1),
+                                      ray_target(0) - source(0),
+                                      ray_target(1) - source(1)) <
+            1)
     {
       // There's an intersection right on a vertex?  We'll count it
       // if and only if it isn't a "double-intersection", if the
       // *next* edge in line is on the other side of our ray.
-      if (!t)
+      if (!simple_det_calculator(edge_pt1(0) - ray_target(0),
+                                 edge_pt1(1) - ray_target(1),
+                                 ray_target(0) - source(0),
+                                 ray_target(1) - source(1)) /
+          simple_det_calculator(edge_pt1(0) - edge_pt0(0),
+                                edge_pt1(1) - edge_pt0(1),
+                                ray_target(0) - source(0),
+                                ray_target(1) - source(1)))
       {
-        const Real p_num = simple_det_calculator(edge_pt0(0) - ray_target(0),
-                                                 edge_pt0(1) - ray_target(1),
-                                                 ray_target(0) - source(0),
-                                                 ray_target(1) - source(1));
-
-        const Real n_num = simple_det_calculator(edge_pt2(0) - ray_target(0),
-                                                 edge_pt2(1) - ray_target(1),
-                                                 ray_target(0) - source(0),
-                                                 ray_target(1) - source(1));
-
-        if (signof(p_num) != -signof(n_num))
+        if (signof(simple_det_calculator(edge_pt0(0) - ray_target(0),
+                                         edge_pt0(1) - ray_target(1),
+                                         ray_target(0) - source(0),
+                                         ray_target(1) - source(1))) !=
+            -signof(simple_det_calculator(edge_pt2(0) - ray_target(0),
+                                          edge_pt2(1) - ray_target(1),
+                                          ray_target(0) - source(0),
+                                          ray_target(1) - source(1))))
           return -1;
       }
 
-      const Real u = simple_det_calculator(edge_pt1(0) - ray_target(0),
-                                           edge_pt1(1) - ray_target(1),
-                                           edge_pt1(0) - edge_pt0(0),
-                                           edge_pt1(1) - edge_pt0(1)) /
-                     simple_det_calculator(edge_pt1(0) - edge_pt0(0),
-                                           edge_pt1(1) - edge_pt0(1),
-                                           ray_target(0) - source(0),
-                                           ray_target(1) - source(1));
-
       // Intersection is in the other direction!?
-      if (1 - u < 0)
+      if (1 - simple_det_calculator(edge_pt1(0) - ray_target(0),
+                                    edge_pt1(1) - ray_target(1),
+                                    edge_pt1(0) - edge_pt0(0),
+                                    edge_pt1(1) - edge_pt0(1)) /
+                  simple_det_calculator(edge_pt1(0) - edge_pt0(0),
+                                        edge_pt1(1) - edge_pt0(1),
+                                        ray_target(0) - source(0),
+                                        ray_target(1) - source(1)) <
+          0)
         return -1;
 
-      return (1 - u) * (ray_target - source).norm();
+      return (1 - simple_det_calculator(edge_pt1(0) - ray_target(0),
+                                        edge_pt1(1) - ray_target(1),
+                                        edge_pt1(0) - edge_pt0(0),
+                                        edge_pt1(1) - edge_pt0(1)) /
+                      simple_det_calculator(edge_pt1(0) - edge_pt0(0),
+                                            edge_pt1(1) - edge_pt0(1),
+                                            ray_target(0) - source(0),
+                                            ray_target(1) - source(1))) *
+             (ray_target - source).norm();
     }
     return -1;
   }
