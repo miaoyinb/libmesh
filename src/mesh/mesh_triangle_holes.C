@@ -143,15 +143,15 @@ namespace
       // *next* edge in line is on the other side of our ray.
       if (!t)
       {
-        const p_num = simple_det_calculator(edge_pt0(0) - ray_target(0),
-                                            edge_pt0(1) - ray_target(1),
-                                            ray_target(0) - source(0),
-                                            ray_target(1) - source(1));
-        
-        const n_num = simple_det_calculator(edge_pt2(0) - ray_target(0),
-                                            edge_pt2(1) - ray_target(1),
-                                            ray_target(0) - source(0),
-                                            ray_target(1) - source(1));
+        const Real p_num = simple_det_calculator(edge_pt0(0) - ray_target(0),
+                                                 edge_pt0(1) - ray_target(1),
+                                                 ray_target(0) - source(0),
+                                                 ray_target(1) - source(1));
+
+        const Real n_num = simple_det_calculator(edge_pt2(0) - ray_target(0),
+                                                 edge_pt2(1) - ray_target(1),
+                                                 ray_target(0) - source(0),
+                                                 ray_target(1) - source(1));
 
         if (signof(p_num) != -signof(n_num))
           return -1;
@@ -170,7 +170,7 @@ namespace
       if (1 - u < 0)
         return -1;
 
-      return (1 - u) * (ray_target(0) - source(0)).norm();
+      return (1 - u) * (ray_target - source).norm();
     }
     return -1;
   }
