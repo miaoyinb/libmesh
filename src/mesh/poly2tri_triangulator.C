@@ -40,6 +40,11 @@
 #include "poly2tri/poly2tri.h"
 #include "libmesh/restore_warnings.h"
 
+#include "libmesh/meshfree_interpolation.h"
+#include "libmesh/threads.h"
+#include "libmesh/numeric_vector.h"
+
+
 // Anonymous namespace - poly2tri doesn't define operator<(Point,Point)
 namespace
 {
