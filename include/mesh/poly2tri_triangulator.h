@@ -36,6 +36,66 @@ namespace libMesh
 class BoundaryInfo;
 class Elem;
 
+ // Forward Declarations
+ template <typename T>
+ class DenseVector;
+ 
+ // Helper function for doing the projection
+ class AreaInterpolationFunction : public FunctionBase<Number>
+ {
+ public:
+   AreaInterpolationFunction (const MeshfreeInterpolation & mfi,
+                                  Threads::spin_mutex & mutex) :
+     _mfi(mfi),
+     _mutex(mutex)
+   {}
+ 
+   AreaInterpolationFunction (AreaInterpolationFunction &&) = default;
+   AreaInterpolationFunction (const AreaInterpolationFunction &) = default;
+   virtual ~AreaInterpolationFunction () = default;
+ 
+   AreaInterpolationFunction & operator= (const AreaInterpolationFunction &) = delete;
+   AreaInterpolationFunction & operator= (AreaInterpolationFunction &&) = delete;
+ 
+   void init () {}
+   void clear () {}
+ 
+   virtual std::unique_ptr<FunctionBase<Number>> clone () const
+   {
+     return std::make_unique<AreaInterpolationFunction>(_mfi, _mutex);
+   }
+ 
+   Number operator() (const Point & p,
+                      const Real /*time*/)
+   {
+     _pts.clear();
+     _pts.push_back(p);
+     _vals.resize(1);
+ 
+     Threads::spin_mutex::scoped_lock lock(_mutex);
+ 
+     _mfi.interpolate_field_data(_mfi.field_variables(), _pts, _vals);
+ 
+     return _vals.front();
+   }
+ 
+ 
+   void operator() (const Point & p,
+                    const Real time,
+                    DenseVector<Number> & output)
+   {
+     output.resize(1);
+     output(0) = (*this)(p,time);
+     return;
+   }
+ 
+ private:
+   const MeshfreeInterpolation & _mfi;
+   mutable std::vector<Point> _pts;
+   mutable std::vector<Number> _vals;
+   Threads::spin_mutex & _mutex;
+};
+
 /**
  * A C++ interface between LibMesh and the poly2tri library, with
  * custom code for Steiner point insertion.
