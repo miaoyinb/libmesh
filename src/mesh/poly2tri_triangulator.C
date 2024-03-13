@@ -44,13 +44,9 @@
 #include "libmesh/threads.h"
 #include "libmesh/numeric_vector.h"
 
-
-// Anonymous namespace - poly2tri doesn't define operator<(Point,Point)
-namespace
+namespace libMesh
 {
-using namespace libMesh;
-
-// Forward Declarations
+  // Forward Declarations
  template <typename T>
  class DenseVector;
  
@@ -108,7 +104,13 @@ using namespace libMesh;
    mutable std::vector<Point> _pts;
    mutable std::vector<Number> _vals;
    Threads::spin_mutex & _mutex;
- };
+};
+}
+
+// Anonymous namespace - poly2tri doesn't define operator<(Point,Point)
+namespace
+{
+using namespace libMesh;
 
 struct P2TPointCompare
 {
