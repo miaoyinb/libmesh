@@ -29,6 +29,12 @@
 #include "libmesh/dof_object.h"
 #include "libmesh/triangulator_interface.h"
 
+#include "libmesh/meshfree_interpolation.h"
+#include "libmesh/threads.h"
+#include "libmesh/numeric_vector.h"
+#include "libmesh/function_base.h"
+
+
 namespace libMesh
 {
 

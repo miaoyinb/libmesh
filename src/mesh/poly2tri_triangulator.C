@@ -26,7 +26,6 @@
 #include "libmesh/boundary_info.h"
 #include "libmesh/elem.h"
 #include "libmesh/enum_elem_type.h"
-#include "libmesh/function_base.h"
 #include "libmesh/hashing.h"
 #include "libmesh/libmesh_logging.h"
 #include "libmesh/mesh_serializer.h"
@@ -39,10 +38,6 @@
 #include "libmesh/ignore_warnings.h" // utf-8 comments should be fine...
 #include "poly2tri/poly2tri.h"
 #include "libmesh/restore_warnings.h"
-
-#include "libmesh/meshfree_interpolation.h"
-#include "libmesh/threads.h"
-#include "libmesh/numeric_vector.h"
 
 // Anonymous namespace - poly2tri doesn't define operator<(Point,Point)
 namespace
