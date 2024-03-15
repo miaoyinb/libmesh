@@ -859,6 +859,7 @@ include_HEADERS = \
         numerics/petsc_shell_matrix.h \
         numerics/petsc_solver_exception.h \
         numerics/petsc_vector.h \
+        numerics/points_interpolation_function.h \
         numerics/preconditioner.h \
         numerics/raw_accessor.h \
         numerics/refinement_selector.h \

@@ -35,6 +35,9 @@
 #include "libmesh/unstructured_mesh.h"
 #include "libmesh/utility.h"
 
+#include "libmesh/points_interpolation_function.h"
+
+
 // poly2tri includes
 #include "libmesh/ignore_warnings.h" // utf-8 comments should be fine...
 #include "poly2tri/poly2tri.h"

@@ -257,6 +257,7 @@ BUILT_SOURCES = \
         petsc_shell_matrix.h \
         petsc_solver_exception.h \
         petsc_vector.h \
+        points_interpolation_function.h \
         preconditioner.h \
         raw_accessor.h \
         refinement_selector.h \
@@ -1343,6 +1344,9 @@ petsc_solver_exception.h: $(top_srcdir)/include/numerics/petsc_solver_exception.
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 petsc_vector.h: $(top_srcdir)/include/numerics/petsc_vector.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+points_interpolation_function.h: $(top_srcdir)/include/numerics/points_interpolation_function.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 preconditioner.h: $(top_srcdir)/include/numerics/preconditioner.h
